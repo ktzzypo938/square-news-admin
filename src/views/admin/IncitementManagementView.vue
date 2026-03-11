@@ -425,24 +425,17 @@ async function loadEvents() {
   loading.value = true
   try {
     // Fetch all events
-    const eventsRes = await publicApi.get('/api/public/events', {
+    const eventsRes = await publicApi.get('/events', {
       params: { size: 1000 }
     })
     const allEvents = eventsRes.data.content || []
 
     // For each event, check analysis status
     const statusPromises = allEvents.map(async (event: any) => {
+      const articleCount = event.articleCount || 0
       try {
-        // Get articles count
-        const articlesRes = await publicApi.get(`/api/public/events/${event.eventId}/articles`, {
-          params: { size: 1 }
-        })
-        const articleCount = articlesRes.data.totalElements || 0
-
-        // Get analyzed articles count
-        const analysisRes = await publicApi.get(
-          `/api/public/events/${event.eventId}/incitement`
-        )
+        // Get analyzed articles count from incitement endpoint
+        const analysisRes = await publicApi.get(`/events/${event.eventId}/incitement`)
         const analyzedArticles = analysisRes.data?.statistics?.totalArticles || 0
         const outletCount = analysisRes.data?.statistics?.totalOutlets || 0
 
@@ -466,12 +459,12 @@ async function loadEvents() {
           status
         }
       } catch (error: any) {
-        // If 404, means no analysis
-        if (error.response?.status === 404) {
+        // 404 means no incitement analysis exists yet（error interceptor 已轉換成 Error）
+        if (error.message === '查無資料') {
           return {
             eventId: event.eventId,
             topic: event.topic,
-            articleCount: 0,
+            articleCount,
             analyzedArticles: 0,
             outletCount: 0,
             state: event.state,
@@ -583,7 +576,7 @@ function getEventsToAnalyze(): EventAnalysisStatus[] {
 }
 
 function viewSpectrum(eventId: number) {
-  window.open(`/events/${eventId}/spectrum`, '_blank')
+  window.open(`/events/${eventId}/incitement`, '_blank')
 }
 
 onMounted(() => {

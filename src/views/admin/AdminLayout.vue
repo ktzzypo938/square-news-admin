@@ -31,7 +31,10 @@ import type { MenuOption } from 'naive-ui'
 import {
   GitMergeOutline as MergeIcon,
   SettingsOutline as SettingsIcon,
-  LayersOutline as LayersIcon
+  LayersOutline as LayersIcon,
+  AnalyticsOutline as AnalyticsIcon,
+  TerminalOutline as TerminalIcon,
+  PeopleOutline as PeopleIcon
 } from '@vicons/ionicons5'
 
 const router = useRouter()
@@ -46,9 +49,19 @@ function renderIcon(icon: any) {
 
 const menuOptions: MenuOption[] = [
   {
+    label: '會員管理',
+    key: 'AdminMembers',
+    icon: renderIcon(PeopleIcon)
+  },
+  {
     label: '事件聚合管理',
     key: 'AdminEventAggregation',
     icon: renderIcon(LayersIcon)
+  },
+  {
+    label: '煽動指數管理',
+    key: 'AdminIncitementManagement',
+    icon: renderIcon(AnalyticsIcon)
   },
   {
     label: '媒體字典管理',
@@ -63,7 +76,7 @@ const menuOptions: MenuOption[] = [
   {
     label: '操作面板',
     key: 'AdminOperations',
-    icon: renderIcon(SettingsIcon)
+    icon: renderIcon(TerminalIcon)
   }
 ]
 

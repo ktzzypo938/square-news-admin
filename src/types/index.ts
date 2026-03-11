@@ -138,6 +138,29 @@ export interface EntityAlias {
   updatedAt?: string
 }
 
+// Admin User Types
+export interface AdminUser {
+  id: number
+  email: string
+  displayName: string | null
+  avatarUrl: string | null
+  role: string
+  active: boolean
+  onboarded: boolean
+  interests: string[]
+  gender: string | null
+  birthYear: number | null
+  createdAt: string
+  lastLoginAt: string | null
+}
+
+export interface AdminUserStats {
+  total: number
+  active: number
+  inactive: number
+  onboarded: number
+}
+
 // API Request Types
 export interface GetArticlesParams {
   sourceName?: string

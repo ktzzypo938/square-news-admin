@@ -25,8 +25,13 @@
 
         <div class="auth-section">
           <n-badge v-if="authStore.isAuthenticated" :value="'Admin'" type="success">
-            <n-avatar round size="small" :style="{ backgroundColor: '#2563eb' }">
-              {{ authStore.apiKey?.substring(0, 2).toUpperCase() }}
+            <n-avatar
+              round
+              size="small"
+              :src="authStore.avatarUrl || undefined"
+              :style="{ backgroundColor: '#2563eb' }"
+            >
+              {{ authStore.name?.substring(0, 1) || authStore.email?.substring(0, 1) || 'A' }}
             </n-avatar>
           </n-badge>
 
@@ -81,18 +86,21 @@ const navItems = computed(() => {
   return items
 })
 
-const dropdownOptions = [
+const dropdownOptions = computed(() => [
   {
-    label: '後台管理',
-    key: 'admin',
-    icon: () => '⚙️'
+    label: authStore.email || '',
+    key: 'email',
+    disabled: true
+  },
+  {
+    type: 'divider',
+    key: 'divider'
   },
   {
     label: '登出',
-    key: 'logout',
-    icon: () => '🚪'
+    key: 'logout'
   }
-]
+])
 
 function isActive(path: string) {
   return route.path.startsWith(path)
@@ -102,8 +110,6 @@ function handleDropdownSelect(key: string) {
   if (key === 'logout') {
     authStore.logout()
     router.push('/login')
-  } else if (key === 'admin') {
-    router.push('/admin')
   }
 }
 </script>

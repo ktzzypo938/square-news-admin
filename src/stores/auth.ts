@@ -1,41 +1,69 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
-const STORAGE_KEY = 'apiKey'
+const STORAGE_KEY = 'adminAuth'
+
+interface AdminAuthData {
+  accessToken: string
+  email: string
+  name: string
+  avatarUrl: string
+}
 
 export const useAuthStore = defineStore('auth', () => {
-  // State
-  const apiKey = ref<string | null>(null)
+  const token = ref<string | null>(null)
+  const email = ref<string | null>(null)
+  const name = ref<string | null>(null)
+  const avatarUrl = ref<string | null>(null)
 
-  // Getters
-  const isAuthenticated = computed(() => !!apiKey.value)
+  const isAuthenticated = computed(() => {
+    if (!token.value) return false
+    try {
+      const payload = JSON.parse(atob(token.value.split('.')[1]))
+      return payload.exp * 1000 > Date.now()
+    } catch {
+      return false
+    }
+  })
 
-  // Actions
-  function login(key: string) {
-    apiKey.value = key
-    localStorage.setItem(STORAGE_KEY, key)
+  function login(data: AdminAuthData) {
+    token.value = data.accessToken
+    email.value = data.email
+    name.value = data.name
+    avatarUrl.value = data.avatarUrl
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   }
 
   function logout() {
-    apiKey.value = null
+    token.value = null
+    email.value = null
+    name.value = null
+    avatarUrl.value = null
     localStorage.removeItem(STORAGE_KEY)
   }
 
   function loadFromStorage() {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored) {
-      apiKey.value = stored
+      try {
+        const data: AdminAuthData = JSON.parse(stored)
+        // 檢查 token 是否還有效，過期就清掉
+        const payload = JSON.parse(atob(data.accessToken.split('.')[1]))
+        if (payload.exp * 1000 > Date.now()) {
+          token.value = data.accessToken
+          email.value = data.email
+          name.value = data.name
+          avatarUrl.value = data.avatarUrl
+        } else {
+          localStorage.removeItem(STORAGE_KEY)
+        }
+      } catch {
+        localStorage.removeItem(STORAGE_KEY)
+      }
     }
   }
 
-  // Initialize from localStorage
   loadFromStorage()
 
-  return {
-    apiKey,
-    isAuthenticated,
-    login,
-    logout,
-    loadFromStorage
-  }
+  return { token, email, name, avatarUrl, isAuthenticated, login, logout, loadFromStorage }
 })
