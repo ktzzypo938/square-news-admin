@@ -31,3 +31,17 @@ export async function updateMediaSource(id: number, payload: Partial<MediaSource
 export async function deleteMediaSource(id: number): Promise<void> {
   await adminApi.delete(`/admin/media-sources/${id}`)
 }
+
+export interface MediaArticleCount {
+  sourceName: string
+  articleCount: number
+  biasScore: number | null
+}
+
+/**
+ * Get article counts grouped by media source
+ */
+export async function getMediaArticleCounts(): Promise<MediaArticleCount[]> {
+  const response = await publicApi.get<MediaArticleCount[]>('/stats/media-article-counts')
+  return response.data
+}

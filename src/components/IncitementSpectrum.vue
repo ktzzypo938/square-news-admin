@@ -64,7 +64,7 @@
                   font-size="12"
                   fill="#666"
                 >
-                  親中/疑美
+                  偏藍
                 </text>
                 <text
                   :x="margin.left + chartInnerWidth / 2"
@@ -82,7 +82,7 @@
                   font-size="12"
                   fill="#666"
                 >
-                  親美/抗中
+                  偏綠
                 </text>
 
                 <!-- Y axis labels -->
@@ -246,9 +246,9 @@ function getRadius(articleCount: number): number {
 }
 
 function getColor(stancePolarity: number): string {
-  if (stancePolarity > 0.3) return '#1890ff' // 藍色（親美）
-  if (stancePolarity < -0.3) return '#ff4d4f' // 紅色（親中）
-  return '#52c41a' // 綠色（中立）
+  if (stancePolarity < -0.3) return '#3b82f6' // 藍色（偏藍）
+  if (stancePolarity > 0.3) return '#22c55e' // 綠色（偏綠）
+  return '#9ca3af' // 灰色（中立）
 }
 
 function handlePointHover(outlet: OutletIncitement) {

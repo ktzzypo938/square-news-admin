@@ -11,7 +11,7 @@ export async function getEvents(
   state?: string,
   published?: boolean
 ): Promise<Page<Event>> {
-  const params: any = { page, size, sort: 'updatedAt,desc' }
+  const params: any = { page, size, sort: 'updated_at,desc' }
   if (topic) params.topic = topic
   if (state) params.state = state
   if (published !== undefined) params.published = published

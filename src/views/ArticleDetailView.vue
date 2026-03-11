@@ -314,16 +314,16 @@ function getNewsTypeText(type: string): string {
 }
 
 function getStanceColor(polarity: number): string {
-  if (polarity > 0.3) return '#1890ff'   // 藍色（親美/抗中）
-  if (polarity < -0.3) return '#ff4d4f'  // 紅色（親中/疑美）
-  return '#52c41a'                       // 綠色（中立）
+  if (polarity < -0.3) return '#3b82f6'   // 藍色（偏藍）
+  if (polarity > 0.3) return '#22c55e'   // 綠色（偏綠）
+  return '#9ca3af'                       // 灰色（中立）
 }
 
 function getStanceLabel(polarity: number): string {
-  if (polarity > 0.5) return '親美/抗中'
-  if (polarity > 0.2) return '偏向親美'
-  if (polarity < -0.5) return '親中/疑美'
-  if (polarity < -0.2) return '偏向親中'
+  if (polarity > 0.5) return '偏綠'
+  if (polarity > 0.2) return '略偏綠'
+  if (polarity < -0.5) return '偏藍'
+  if (polarity < -0.2) return '略偏藍'
   return '中立'
 }
 

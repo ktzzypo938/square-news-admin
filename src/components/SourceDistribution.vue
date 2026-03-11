@@ -27,8 +27,8 @@ const chartRef = ref<HTMLElement>()
 let chartInstance: ECharts | null = null
 
 function getColor(score: number): string {
-  if (score < -0.3) return '#ef4444' // 紅色代表親中
-  if (score > 0.3) return '#3b82f6' // 藍色代表親美
+  if (score < -0.3) return '#3b82f6' // 藍色代表偏藍
+  if (score > 0.3) return '#22c55e' // 綠色代表偏綠
   return '#9ca3af' // 灰色代表中立
 }
 
@@ -41,8 +41,8 @@ function getGradientColor(score: number): any {
       x2: 0,
       y2: 1,
       colorStops: [
-        { offset: 0, color: '#f87171' },
-        { offset: 1, color: '#ef4444' }
+        { offset: 0, color: '#60a5fa' },
+        { offset: 1, color: '#3b82f6' }
       ]
     }
   }
@@ -54,8 +54,8 @@ function getGradientColor(score: number): any {
       x2: 0,
       y2: 1,
       colorStops: [
-        { offset: 0, color: '#60a5fa' },
-        { offset: 1, color: '#3b82f6' }
+        { offset: 0, color: '#4ade80' },
+        { offset: 1, color: '#22c55e' }
       ]
     }
   }
@@ -81,8 +81,8 @@ function initChart() {
 
   const option = {
     title: {
-      text: '各來源立場分佈（親中 ← → 親美）',
-      subtext: '負分=親中立場 | 正分=親美立場',
+      text: '各來源立場分佈（偏藍 ← → 偏綠）',
+      subtext: '負分=偏藍立場 | 正分=偏綠立場',
       left: 'center',
       textStyle: {
         fontSize: 18,

@@ -160,8 +160,8 @@ const stateOptions = [
 
 const blindspotOptions = [
   { label: '平衡 (Balanced)', value: 'BALANCED' },
-  { label: '親美盲區 (Pro-US Blindspot)', value: 'PRO_US_BLINDSPOT' },
-  { label: '親中盲區 (Pro-China Blindspot)', value: 'PRO_CHINA_BLINDSPOT' },
+  { label: '偏綠盲區 (Green Blindspot)', value: 'PRO_US_BLINDSPOT' },
+  { label: '偏藍盲區 (Blue Blindspot)', value: 'PRO_CHINA_BLINDSPOT' },
   { label: '左翼盲區 (Left Blindspot)', value: 'LEFT_BLINDSPOT' },
   { label: '右翼盲區 (Right Blindspot)', value: 'RIGHT_BLINDSPOT' }
 ]

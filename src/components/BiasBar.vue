@@ -12,7 +12,7 @@
           @mouseleave="hideTooltip"
         >
           <span v-if="(leftWingRatio || 0) > 0.1" class="segment-label">
-            親中 {{ ((leftWingRatio || 0) * 100).toFixed(1) }}%
+            偏藍 {{ ((leftWingRatio || 0) * 100).toFixed(1) }}%
           </span>
         </div>
         <div
@@ -32,14 +32,14 @@
           @mouseleave="hideTooltip"
         >
           <span v-if="(rightWingRatio || 0) > 0.1" class="segment-label">
-            親美 {{ ((rightWingRatio || 0) * 100).toFixed(1) }}%
+            偏綠 {{ ((rightWingRatio || 0) * 100).toFixed(1) }}%
           </span>
         </div>
       </div>
       <div class="legend-bar">
         <div class="legend-item">
           <span class="legend-dot pro-china-dot"></span>
-          <span class="legend-text">親中立場（負分）</span>
+          <span class="legend-text">偏藍立場（負分）</span>
         </div>
         <div class="legend-item">
           <span class="legend-dot neutral-dot"></span>
@@ -47,7 +47,7 @@
         </div>
         <div class="legend-item">
           <span class="legend-dot pro-us-dot"></span>
-          <span class="legend-text">親美立場（正分）</span>
+          <span class="legend-text">偏綠立場（正分）</span>
         </div>
       </div>
     </div>
@@ -118,7 +118,7 @@ function hideTooltip() {
   inset: 0;
   border-radius: 12px;
   padding: 2px;
-  background: linear-gradient(90deg, #ef4444, #9ca3af, #3b82f6);
+  background: linear-gradient(90deg, #3b82f6, #9ca3af, #22c55e);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -147,7 +147,7 @@ function hideTooltip() {
 }
 
 .pro-china {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
 
 .neutral {
@@ -155,7 +155,7 @@ function hideTooltip() {
 }
 
 .pro-us {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
 }
 
 /* 圖例樣式 */
@@ -184,7 +184,7 @@ function hideTooltip() {
 }
 
 .pro-china-dot {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
 
 .neutral-dot {
@@ -192,7 +192,7 @@ function hideTooltip() {
 }
 
 .pro-us-dot {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
 }
 
 .legend-text {
