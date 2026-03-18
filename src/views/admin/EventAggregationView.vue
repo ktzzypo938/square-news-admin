@@ -194,7 +194,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, h, onMounted } from 'vue'
+import { ref, reactive, h, onMounted } from 'vue'
 import {
   NH2,
   NSpace,
@@ -212,7 +212,7 @@ import {
   NText,
   useMessage
 } from 'naive-ui'
-import type { DataTableColumns, DataTableRowKey, PaginationProps } from 'naive-ui'
+import type { DataTableColumns, DataTableRowKey } from 'naive-ui'
 import {
   getEvents,
   getEventArticles,
@@ -236,7 +236,7 @@ const stateFilter = ref<string | null>(null)
 const totalEvents = ref(0)
 
 // 分頁
-const pagination = ref<PaginationProps>({
+const pagination = reactive({
   page: 1,
   pageSize: 20,
   showSizePicker: true,
@@ -372,12 +372,12 @@ const batchArticleColumns: DataTableColumns<Article> = [
 async function loadEvents() {
   try {
     loading.value = true
-    const page = (pagination.value.page || 1) - 1
-    const size = pagination.value.pageSize || 20
+    const page = (pagination.page || 1) - 1
+    const size = pagination.pageSize || 20
     const result = await getEvents(page, size, searchTopic.value || undefined, stateFilter.value || undefined)
     events.value = result.content
     totalEvents.value = result.totalElements
-    pagination.value.itemCount = result.totalElements
+    pagination.itemCount = result.totalElements
   } catch (error: any) {
     message.error(error.message || '載入事件列表失敗')
   } finally {
@@ -386,20 +386,20 @@ async function loadEvents() {
 }
 
 function handlePageChange(page: number) {
-  pagination.value.page = page
+  pagination.page = page
   loadEvents()
 }
 
 function handlePageSizeChange(pageSize: number) {
-  pagination.value.pageSize = pageSize
-  pagination.value.page = 1
+  pagination.pageSize = pageSize
+  pagination.page = 1
   loadEvents()
 }
 
 function resetFilters() {
   searchTopic.value = ''
   stateFilter.value = null
-  pagination.value.page = 1
+  pagination.page = 1
   loadEvents()
 }
 
