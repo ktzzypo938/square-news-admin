@@ -32,6 +32,7 @@
       <!-- 事件列表 -->
       <n-card title="事件列表">
         <n-data-table
+          remote
           :columns="eventColumns"
           :data="events"
           :loading="loading"
