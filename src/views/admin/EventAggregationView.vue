@@ -241,8 +241,7 @@ const pagination = ref<PaginationProps>({
   pageSize: 20,
   showSizePicker: true,
   pageSizes: [10, 20, 50, 100],
-  itemCount: 0,
-  pageCount: 0
+  itemCount: 0
 })
 
 // 事件詳情
@@ -379,7 +378,6 @@ async function loadEvents() {
     events.value = result.content
     totalEvents.value = result.totalElements
     pagination.value.itemCount = result.totalElements
-    pagination.value.pageCount = result.totalPages
   } catch (error: any) {
     message.error(error.message || '載入事件列表失敗')
   } finally {
