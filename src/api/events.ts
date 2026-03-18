@@ -56,8 +56,12 @@ export async function getEventById(eventId: number): Promise<Event> {
  * @param eventId Event ID
  */
 export async function getEventArticles(eventId: number): Promise<Article[]> {
-  const response = await publicApi.get<Article[]>(`/events/${eventId}/articles`)
-  return response.data
+  const response = await publicApi.get(`/events/${eventId}/articles`, {
+    params: { page: 0, size: 500 }
+  })
+  // API 回傳分頁物件 {content: [...], ...}，取出 content
+  const data = response.data
+  return data.content ?? data
 }
 
 /**
