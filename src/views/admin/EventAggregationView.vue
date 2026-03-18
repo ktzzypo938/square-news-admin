@@ -32,14 +32,11 @@
       <!-- 事件列表 -->
       <n-card title="事件列表">
         <n-data-table
-          remote
           :columns="eventColumns"
           :data="events"
           :loading="loading"
           :pagination="pagination"
           :row-key="(row: Event) => row.eventId"
-          @update:page="handlePageChange"
-          @update:page-size="handlePageSizeChange"
         />
       </n-card>
 
@@ -194,7 +191,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, h, onMounted } from 'vue'
+import { ref, h, onMounted } from 'vue'
 import {
   NH2,
   NSpace,
@@ -235,13 +232,12 @@ const searchTopic = ref('')
 const stateFilter = ref<string | null>(null)
 const totalEvents = ref(0)
 
-// 分頁
-const pagination = reactive({
+// 分頁（前端分頁，一次載入所有事件）
+const pagination = ref({
   page: 1,
   pageSize: 20,
   showSizePicker: true,
-  pageSizes: [10, 20, 50, 100],
-  itemCount: 0
+  pageSizes: [10, 20, 50, 100]
 })
 
 // 事件詳情
@@ -372,12 +368,10 @@ const batchArticleColumns: DataTableColumns<Article> = [
 async function loadEvents() {
   try {
     loading.value = true
-    const page = (pagination.page || 1) - 1
-    const size = pagination.pageSize || 20
-    const result = await getEvents(page, size, searchTopic.value || undefined, stateFilter.value || undefined)
+    // 一次載入所有事件（最多 1000 筆），由前端分頁
+    const result = await getEvents(0, 1000, searchTopic.value || undefined, stateFilter.value || undefined)
     events.value = result.content
     totalEvents.value = result.totalElements
-    pagination.itemCount = result.totalElements
   } catch (error: any) {
     message.error(error.message || '載入事件列表失敗')
   } finally {
@@ -385,21 +379,9 @@ async function loadEvents() {
   }
 }
 
-function handlePageChange(page: number) {
-  pagination.page = page
-  loadEvents()
-}
-
-function handlePageSizeChange(pageSize: number) {
-  pagination.pageSize = pageSize
-  pagination.page = 1
-  loadEvents()
-}
-
 function resetFilters() {
   searchTopic.value = ''
   stateFilter.value = null
-  pagination.page = 1
   loadEvents()
 }
 
